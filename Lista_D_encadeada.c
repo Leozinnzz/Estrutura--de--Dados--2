@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Learning.h"
-
+#include "Lista_D_encadeada.h"
+#include <time.h>
 
 int interface(){
 	printf("\n=======================TELA==============================\n");
@@ -18,38 +18,44 @@ int interface(){
 	return opc;
 }
 
-void cadastrar_Documento(Lista lst) {
-	char nome[100]; 
-	int id, pgs, tam; 
-	id = 1 + rand()%10; 
+
+void set_product(List lst){
+	char name[100];
+	int pgs, tam, id;
+	id = rand()%100;
 	printf("Digite o nome do documento: ");
-	scanf("%s", nome); 
-	printf("Digite a quantidade de paginas: ");
-	scanf("%d", &pgs); 
-	tam = 100 + rand()%999;
-	criar_documento(lst, id, nome, pgs, tam); 
+	scanf(" %[^\n]", name);
+	printf("Quantidade de paginas: ");
+	scanf(" %d", &pgs);
+	tam = 100 + rand()%899;
+	new_Document(lst, id, name, pgs, tam);
 }
+
 
 int main() {
 	
-	Lista lst = criar_lista(); 
-    
+	srand(time(NULL));
+	
+	List lst = new_List();
+	
+
 	do {	
 		switch(interface()) {
 			case 1:
-				cadastrar_Documento(lst);
+				set_product(lst);
+				printf("Produto cadastrado!");
 				break;
 			case 2:
-				print_Lista(lst);
+				print_lista(lst);
 				break;
 			case 3:
-				imprimir(lst);
+				impr_doc(lst);
 				break;
 			case 4: 
-				apagar_documento(lst);
+				excluir(lst);
 				break;
 			case 5: 
-				priorizar(lst);
+				
 				break;
 			case 0:
 				return 0;
@@ -59,6 +65,7 @@ int main() {
 	
 	}while(1);
     
+
 }
 
 

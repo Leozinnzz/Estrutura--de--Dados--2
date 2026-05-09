@@ -2,59 +2,158 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct {
-	char* nome; 
-	char* cpf;
-	int idade;
-	float altura;
-}Pessoa;
+typedef struct Document{
+	int id;
+	char* name;
+	int bytes;
+	int pag;
+	struct Document* next; 
+}Document;
 
-typedef struct Node {
-	Pessoa content;
-	struct Node* next;
-}Node;
+//Document* temp = head->next
+//free(head)
+//return p
 
-//Construtor
-Pessoa* criar_Pessoa(char* nome, char* cpf, int idade, float altura){
-	Pessoa* p = malloc(sizeof(Pessoa));
-	p->nome = (char*) malloc(strlen(nome)+1);
-	strcpy(p->nome, nome);
-	p->cpf = (char*) malloc(strlen(cpf)+1);
-	strcpy(p->cpf, cpf);
-	p->idade = idade;
-	p->altura = altura;
-	return p;
+/*
+ encapsular a lista // lista circular com cabeça
+ typedef struct Queue {
+	Produto* head;
+	Produto* tail;
+	int size/
+ }Queue;
+
+*/
+
+//cricao da lista
+typedef struct List{
+	Document* head;
+	Document* tail;
+	int size;
+}List;
+
+typedef List* Lista;
+
+List* new_list(){
+	List* l = (List*) malloc(sizeof(List)); 
+	
+	l->head = NULL;
+	l->tail = NULL;
+	l->size = 0;
+	return l;
 }
 
-//criar nos
-Node* criar_no(Node* head, Pessoa* content) {
-	Node* n = malloc(sizeof(Node)); 
-	n->content = *content;
-	n->next = head;
-	return n;
+void new_document(List* list){
+	Document* new = (Document*) malloc(sizeof(Document)); 
+	new->id = rand()%100;
+	
+	char temp[100];
+	
+	printf("Digite o nome do documento: ");
+	scanf(" %[^\n]", temp); 
+	
+	new->name = (char*) malloc(strlen(temp)+1);
+	strcpy(new->name, temp);
+	
+	printf("Digite a quantidade de paginas do documento: ");
+	scanf("%d", &new->pag);
+	
+	new->bytes = 100 + rand()%1000;
+	
+	/*new->next = list->head; //o novo no aponta para o documento atual
+	list->tail->next = new; // o antigo ultimo aponta para o novo 
+	list->tail = new; // o tail agora e o novo no */
+	
+	new->next = NULL;
+	
+	if (!list->head) {
+		list->head = list->tail = new;
+		list->size++;
+		return;
+	}
+	
+	list->tail->next = new;
+	list->tail = new;
+	
+	list->size++; //incrementa a lista
 }
 
-void print_pessoa(Node* lista){
-	while(lista != NULL) {
-		printf("\nPessoa 1\n"); 
-		printf("Nome: %s\nCPF: %s\nIdade: %d\nAltura: %.2f\n", 
-		lista->content.nome, lista->content.cpf, lista->content.idade,
-		lista->content.altura);
-		lista = lista->next;
+void fila_imprimir(List* l){
+	
+	if(l->size == 0) {
+		printf("A lista esta vazia");
+		return;
+	}
+	
+	Document* aux = l->head;
+
+	
+	while(aux) {
+		printf("ID: %d || Nome: %s || Paginas %d. || Tamanho(Bytes): %db\n",
+		aux->id, aux->name, aux->pag, aux->bytes);
+		aux = aux->next;
 	}
 }
 
 
-void deletar_pessoa(Pessoa* p) {
-	if(p == NULL) return;
-	free(p->nome);
-	free(p);
+void imprimir(List* l){
+	
+	if (l->size == 0) {
+		printf("A lista esta vazia...");
+		return;
+	}
+	
+	Document* act = l->head->next; 
+	
+	if(!l->head->next) {
+		printf("Nao ha documentos na lista");
+		return;
+	}
+		
+	
+	if(l->head->next)  {
+		printf("ID: %d || Nome: %s || Paginas %d. || Tamanho(Bytes): %db\n",
+		act->id, act->name, act->pag, act->bytes);
+		free(act->name);
+		free(act);
+		l->size--;
+	}
+	
+
 }
 
-void deletar_lista(Node* list) {
-	while(list != NULL) {
-		Node* prox = list->next;
-		free(list);
-		list = prox;
+void excluir_doc(List* list){
+	if(!list || !list->head) {
+		printf("Nao ha documentos para exclusao");
+		return;
 	}
+	
+	int alvo;
+	printf("Digite o ID: "); 
+	scanf(" %i", &alvo);
+	
+	 list->head->id == alvo? printf(" %d", alvo) : printf("Falso");
+	
+	
+	//errro
+	if(list->head->id == alvo) {
+		
+		Document* head = list->head;
+		
+		printf("Documento encontrado! ID %d | Nome: %s | numero de paginas: %d | tamanho: %d\n", head->id, head->name, head->pag, head->bytes);
+		list->head = list->head->next;
+		
+		if(!list->head)
+			list->tail = NULL;
+		
+		free(head->name);
+		free(head);
+		list->size--;
+	
+		printf("Documento excluido com sucesso!");
+		return;
+	}
+	
+	printf("Produto nao encontrado");
 }
+
+
