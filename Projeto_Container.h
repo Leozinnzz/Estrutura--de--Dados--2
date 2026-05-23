@@ -32,7 +32,7 @@ typedef struct TypeImagem{
 	char* nome;
 	struct listContainers* containers;
 	struct TypeImagem* ant;
-	struct TypeImagem* prox;
+	TypeImagem* prox;
 }TypeImagem;
 
 typedef TypeImagem* Imagem;
@@ -47,7 +47,7 @@ typedef struct listImagems{
 typedef listImagems* ListI;
 
 ListC new_list_container(){
-	ListC lc = malloc(sizeof(listContainers));
+	ListC lc = (ListC) malloc(sizeof(listContainers));
 	lc->head = NULL; 
 	lc->tail = NULL; 
 	lc->lastId = 1000 + rand()%8999;
@@ -56,7 +56,7 @@ ListC new_list_container(){
 }
 
 ListI new_list_imagem(){
-	ListI li = malloc(sizeof(listImagems));
+	ListI li = (ListI) malloc(sizeof(listImagems));
 	li->head = NULL; 
 	li->tail = NULL; 
 	li->lastId = 1000 + rand()%8999;
@@ -77,7 +77,7 @@ Container new_container(ListC lst, char* name, int idImg){
 	lst->tail = ct;
 
 	ct->idImg = idImg;
-	ct->nome = malloc(strlen(name)+1);
+	ct->nome = (char*) malloc(strlen(name)+1);
 	strcpy(ct->nome, name);
 	ct->status = EXECUTANDO;
 	lst->size++;
@@ -86,7 +86,7 @@ Container new_container(ListC lst, char* name, int idImg){
 
 Imagem new_imagem(ListI lst, char* name){
 	Imagem img = (Imagem) malloc(sizeof(TypeImagem)); 
-	img->id = lst->lastId++;
+	img->id = lst->lastId++; 
 	img->ant = lst->tail;
 	img->prox = NULL;
 	img->containers = new_list_container();
@@ -97,7 +97,7 @@ Imagem new_imagem(ListI lst, char* name){
 		lst->tail->prox = img;
 	lst->tail = img;
 	
-	img->nome = malloc(strlen(name)+1); 
+	img->nome = (char*) malloc(strlen(name)+1); 
 	strcpy(img->nome, name);
 	lst->size++; 
 	return img; 
@@ -116,7 +116,7 @@ void print_imagem(Imagem img){
 
 void print_all_imagems(ListI lst){
 	if(!lst->size || !lst->head) {
-		printf("The list is empty1\n");
+		printf("The list is empty\n");
 		return; 
 	}
 	
@@ -153,7 +153,11 @@ void stop_container(ListC lst, type status){
 	
 	int id; 
 	printf("\nDigite o id do container: ");
-	scanf("%d", &id); 
+	if(scanf("%d", &id) != 1) {
+		printf("Digite um id valido!");
+		while(getchar() != '\n');
+	}
+	while(getchar() != '\n');
 	
 	while(ct){
 		if(ct->id == id) {
@@ -181,10 +185,7 @@ int existeContainer(ListC lst, int idImg) {
 }
 
 int existeImg(ListI lstI, int id_img){
-	if(!lstI->size || !lstI->head) {
-		printf("The list is empty\n");
-		return 0; 
-	}
+	if(!lstI->size || !lstI->head) return 0; 
 	
 	Imagem img = lstI->head; 
 	
@@ -207,7 +208,12 @@ void excluir_imagem(ListI lst, ListC lstC){
 	
 	int id; 
 	printf("\nDigite o id da imagem: ");
-	scanf("%d", &id); 
+	if(scanf("%d", &id) != 1) {
+    printf("Digite um id valido!\n");
+    while(getchar() != '\n'); 
+    return;
+}
+	while(getchar() != '\n');
 	
 	while(img){
 		if(img->id == id) {
@@ -223,7 +229,6 @@ void excluir_imagem(ListI lst, ListC lstC){
 				img->prox->ant = img->ant; 
 			else 
 				lst->tail = img->ant;
-			free(img->containers);
 			free(img->nome);
 			free(img);
 			lst->size--;

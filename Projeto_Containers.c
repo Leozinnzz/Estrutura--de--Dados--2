@@ -4,19 +4,28 @@
 #include "Projeto_Container.h"
 
 int interface() {
-	printf("\n===========================================MENU=========================================\n");
-	printf("1 - Baixar Imagem(criar imagem)\n"); 
-	printf("2 - Excluir Imagem\n"); 
-	printf("3 - Criar container\n"); 
-	printf("4 - Interromper container\n"); 
-	printf("5 - Iniciar container\n"); 
-	printf("6 - Excluir container\n"); 
-	printf("7 - Listar todas as imagems\n"); 
-	printf("8 - Listas todos os containers\n"); 
-	int opt; 
-	printf("\nDigite uma opção: "); 
-	scanf("%d", &opt);
-	return opt;
+    printf("\n╔══════════════════════════════════════════════════════╗\n");
+    printf("║        GERENCIADOR DE CONTAINERS E IMAGENS           ║\n");
+    printf("╠══════════════════════════════════════════════════════╣\n");
+    printf("║  [1]  Baixar imagem                                  ║\n");
+    printf("║  [2]  Excluir imagem                                 ║\n");
+    printf("║  [3]  Criar container                                ║\n");
+    printf("║  [4]  Interromper container                          ║\n");
+    printf("║  [5]  Iniciar container                              ║\n");
+    printf("║  [6]  Excluir container                              ║\n");
+    printf("║  [7]  Listar todas as imagens                        ║\n");
+    printf("║  [8]  Listar todos os containers                     ║\n");
+    printf("║  [0]  Sair                                           ║\n");
+    printf("╚══════════════════════════════════════════════════════╝\n");
+    int opt;
+    printf("Digite uma opção: ");
+    if (scanf("%d", &opt) != 1) {
+        printf("  [ERRO] Digite um numero valido!\n");
+        while (getchar() != '\n');
+        return -1;
+    }
+    while (getchar() != '\n');
+    return opt;
 }
 
 void baixar_imagem(ListI lst){
@@ -36,14 +45,20 @@ void criar_container(ListC lstC, ListI lstI){
 	}	
 	print_all_imagems(lstI);
 	printf("Digite o id da imagem: ");
-	scanf("%d", &id_img);
+	if(scanf("%d", &id_img) != 1) {
+		printf("Digite um id valido! "); 
+		
+		while(getchar() != '\n');
+		
+		return;
+	} 
 	
 	if(!existeImg(lstI, id_img)) {
 		printf("O id da imagem deve ser valido");
 		return;
 	} 
 	
-	printf("Digite o nome da container: "); 
+	printf("Digite o nome do container: "); 
 	scanf(" %[^\n]", nome);
 	new_container(lstC, nome, id_img); 
 }

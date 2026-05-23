@@ -36,7 +36,7 @@ Document new_Document(List lst, int id, char* name, int pgs, int tam){
 	doc->prox = NULL;
 	
 	doc->ant = lst->tail;
-	if(lst->tail)
+	if(!lst->tail)
 		lst->tail->prox = doc;
 	lst->tail = doc;
 	
