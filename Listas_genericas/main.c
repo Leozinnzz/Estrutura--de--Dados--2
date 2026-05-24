@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Object.h"
-#include "Pratice.h"
+#include "Lista.h"
 #include "Item.h"
 #include "Player.h"
 
@@ -13,13 +13,13 @@ int main(){
 		char name[100];
 		sprintf(name,"%s%d","link",i+1);
 		//Object p1 = new(Player,ELFO,name,50+rand()%50);
-		Object p1 = new(Player, name, 50);
-		LIST_append(lst, p1);
+		Object p1 = new(Player, name, ELFO, 50);
+		list_enqueue(lst, p1);
 	}
+	foreach(lst,set_bonus,ELFO,100);
+	print_List(lst, print_player);
 	
-	foreach(lst, print_player);
 	
-	//terminar amanha
 	//resolvam o seguinte problema...
 	//aplicar um bonus de HP (+50) para todo player com type==HUMANO
 	//usar a função foreach para isso

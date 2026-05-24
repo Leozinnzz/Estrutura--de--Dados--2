@@ -22,6 +22,18 @@ Object new_Object(){
 	obj->right = NULL; 
 	return obj;	
 }
+
+Object destroy(Object obj){
+	if(!obj) return NULL; 
+	
+	if(obj->item) {
+		free(obj->item); 
+		obj->item = NULL;
+	}
+	free(obj); 
+	
+	return NULL;
+}
 #endif
 
 

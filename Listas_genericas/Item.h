@@ -1,3 +1,6 @@
+#ifndef ITEM_H
+#define ITEM_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,3 +24,5 @@ Object new_Item(char* name, int power){
 	i->power = power; 
 	return obj; 
 }
+
+#endif

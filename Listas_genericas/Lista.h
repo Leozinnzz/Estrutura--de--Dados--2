@@ -1,10 +1,11 @@
-#ifndef PRATICE_H
-#define PRATICE_H
+#ifndef LISTA_H
+#define LISTA_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "Object.h"
+#include "Player.h"
 
 #define new(TYPE,...) new_##TYPE(__VA_ARGS__)
 
@@ -24,7 +25,7 @@ List new_List() {
 	return lst; 
 }
 
-void LIST_append(List lst, Object obj) {
+void list_enqueue(List lst, Object obj) {
 	if(!lst->head || !lst->size) {
 		lst->head = obj; 
 		lst->tail = obj;
@@ -34,19 +35,28 @@ void LIST_append(List lst, Object obj) {
 		obj->left = lst->tail;
 		lst->tail = obj;
 	}
-	
 	lst->size++; 
 }
 
-
-void foreach(List lst, void f(Object)) {
+void foreach(List lst, void f(Object, playerType, int), playerType raca, int valor) {
 	if(!lst->size || !lst->head) return; 
 	Object obj = lst->head; 
 	while(obj) {
-		f(obj); 
+		f(obj, raca, valor); 
 		obj = obj->right;
 	}
 }
+
+void print_List(List lst, void f(Object)){
+	if(!lst->tail || !lst->head) return; 
+	Object obj = lst->head; 
+	while(obj){
+		f(obj);
+		obj = obj->right;
+	}
+}
+
+
 #endif
 
 
