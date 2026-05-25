@@ -23,16 +23,12 @@ Object new_Object(){
 	return obj;	
 }
 
-Object destroy(Object obj){
-	if(!obj) return NULL; 
+void destroy(Object obj){
+	if(!obj) return;
 	
-	if(obj->item) {
-		free(obj->item); 
-		obj->item = NULL;
-	}
-	free(obj); 
-	
-	return NULL;
+	if(obj->item)
+		free(obj->item);
+	free(obj);
 }
 #endif
 

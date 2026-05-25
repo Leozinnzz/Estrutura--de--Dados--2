@@ -15,6 +15,11 @@ typedef struct __Player{
 }__Player;
 
 typedef __Player* Player;
+
+typedef struct {
+	
+
+}context;
  
 Object new_Player(char* name, playerType raca, int hp) {
 	Object obj = new_Object();
