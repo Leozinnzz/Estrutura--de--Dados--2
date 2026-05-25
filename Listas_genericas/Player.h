@@ -35,14 +35,15 @@ void print_player(Object obj) {
 	
 }
 
-
-void set_bonus(Object obj, playerType raca_alvo, int valor){
+void set_bonus(Object obj, playerType race, int valor){
 	if(obj->tipo != PLAYER) return; 
-	
 	Player pl = (Player) obj->item;
-	if(pl->raca == raca_alvo)
+	if(pl->raca == race) 
 		pl->hp += valor;
 }
+
+
+
 
 #endif
 

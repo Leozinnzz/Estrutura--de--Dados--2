@@ -6,7 +6,6 @@
 #include <string.h>
 #include "Object.h"
 
-
 typedef struct __Item{
 	char name[100]; 
 	int power; 

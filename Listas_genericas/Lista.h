@@ -38,17 +38,17 @@ void list_enqueue(List lst, Object obj) {
 	lst->size++; 
 }
 
-void foreach(List lst, void f(Object, playerType, int), playerType raca, int valor) {
+void foreach(List lst, void f(Object, playerType, int), playerType race, int value) {
 	if(!lst->size || !lst->head) return; 
 	Object obj = lst->head; 
 	while(obj) {
-		f(obj, raca, valor); 
-		obj = obj->right;
-	}
+		f(obj, race, value);
+		obj = obj->right; 
+	} 
 }
 
-void print_List(List lst, void f(Object)){
-	if(!lst->tail || !lst->head) return; 
+void print_List(List lst, void f(Object)) {
+	if(!lst->size || !lst->head) return; 
 	Object obj = lst->head; 
 	while(obj){
 		f(obj);
