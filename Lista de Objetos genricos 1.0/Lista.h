@@ -13,7 +13,7 @@ typedef struct __List{
 
 typedef __List* List; 
 
-List new_list(){
+List new_List(){
 	List lst = malloc(sizeof(__List)); 
 	lst->head = NULL; 
 	lst->tail = NULL; 
@@ -22,11 +22,15 @@ List new_list(){
 }
 
 void push(List lst, Object obj){
-	if(lst->head)
+	if(lst->head) {
+		obj->right = lst->head;
 		lst->head->left = obj;
-	else 
+	}
+	else  {
 		lst->tail = obj;
+	}
 	lst->head = obj;
+	lst->size++;
 }
 
 void enqueue(List lst, Object obj) {
@@ -45,13 +49,15 @@ void enqueue(List lst, Object obj) {
 
 Object list_pop(List lst){
 	if(!lst->size || !lst->head) return NULL; 
+	
 	Object obj = lst->head; 
-	if(obj->right) {
-		lst->head = obj->right;
-		obj->right = NULL;
-	}else {
-		lst->tail = lst->head = NULL; 
-	}
+	if(obj->right) 
+		obj->right->left = NULL; 
+	else 
+		lst->tail = NULL; 
+	lst->head = obj->right;
+	obj->right = NULL;
+	obj->left = NULL;
 	return obj;
 }
 
@@ -64,13 +70,16 @@ void list_clear(List lst) {
 		destroy(obj);
 		obj = temp;
 	}
+	lst->head = NULL;
+	lst->tail = NULL;
+	lst->size = 0;
 }
 
-void foreach(List lst, void f(Object)){
+void foreach(List lst, void (*f) (Object, void*), void* contexto){
 	if(!lst->size || !lst->head) return; 
 	Object obj = lst->head; 
 	while(obj){
-		f(obj); 
+		f(obj, contexto); 
 		obj = obj->right;  
 	}
 }

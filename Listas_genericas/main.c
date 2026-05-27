@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Object.h"
-#include "Lista.h"
+#include "List.h"
 #include "Item.h"
 #include "Player.h"
 
@@ -20,12 +20,6 @@ int main(){
 	foreach(lst, set_bonus, HUMANO, 50); 
 	print_List(lst, print_player);
 	
-	//resolvam o seguinte problema...
-	//aplicar um bonus de HP (+50) para todo player com type==HUMANO
-	//usar a função foreach para isso
-	//pesquisar sobre contextos como parâmetros de função 
-
-	//p.ex..
-	//foreach(lst,set_Bonus,HUMANO,50);
+	
 }
 

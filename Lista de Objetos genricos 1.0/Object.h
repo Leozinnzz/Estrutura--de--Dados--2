@@ -13,7 +13,7 @@ typedef struct Node{
 
 typedef Node* Object; 
 
-Object new_object(){
+Object new_Object(){
 	Object obj = malloc(sizeof(Node));
 	obj->item = NULL;
 	obj->left = NULL;
@@ -22,7 +22,6 @@ Object new_object(){
 }
 void destroy(Object obj){
 	if(!obj) return;
-	
 	if(obj->item)
 		free(obj->item);
 	free(obj);

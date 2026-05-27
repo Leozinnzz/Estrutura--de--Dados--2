@@ -17,21 +17,22 @@ typedef struct __Entidade{
 
 typedef __Entidade* Entidade;
 
-Object new_entity(int id, char* name, int age){
-	Object obj = new_object();
+Object new_Entidade(int id, char* name, int age){
+	Object obj = new_Object();
 	Entidade ent = malloc(sizeof(__Entidade));
-	obj->item = ent; 
 	ent->age = age; 
 	ent->id = id; 
 	ent->name = malloc(strlen(name)+1); 
+	strcpy(ent->name, name);
+	obj->item = ent; 
 	return obj;
 }
 
-Entidade print_Entity(Object obj){
-	if(!obj) return NULL; 
+void print_Entity(Object obj){
+	if(!obj) return; 
+	
 	Entidade ent = (Entidade) obj->item; 
 	printf("ID: %d\t\tNome: %s\t\t idade: %d\n", ent->id, ent->name, ent->age);
-	return ent;
 }
 #endif
 
