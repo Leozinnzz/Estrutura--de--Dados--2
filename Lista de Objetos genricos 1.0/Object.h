@@ -27,6 +27,19 @@ void destroy(Object obj){
 	free(obj);
 }
 
+Object list_pop(List lst, Object obj){
+	if(!lst->size || !lst->head) return; 
+	Object obj = lst->head; 
+	Object copia = obj;
+	while(obj) {
+		lst->head = obj->right
+		if(obj->item)
+			free(obj->item); 
+		free(obj);
+		return copia;
+	}
+}
+
 
 
 #endif

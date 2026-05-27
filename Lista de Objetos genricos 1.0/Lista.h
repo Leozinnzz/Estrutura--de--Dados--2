@@ -29,4 +29,17 @@ void push(List lst, Object obj){
 	lst->head = obj;
 }
 
+void enqueue(List lst, Object obj) {
+	if(!lst->head || !lst->size) {
+		lst->head = obj;
+		lst->tail = obj;
+	}
+	else {
+		lst->head->right = obj; 
+		obj->left = lst->tail;
+		lst->tail = obj; 
+	}
+	lst->size++;
+}
+
 #endif

@@ -17,12 +17,9 @@ typedef struct __Entidade{
 
 typedef __Entidade* Entidade;
 
-Entidade new_entity(List ){
+Entidade new_entity(Object obj, int id, char* name, int idade){
 	
 }
-
-
-
 #endif
 
 
