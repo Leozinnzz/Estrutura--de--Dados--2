@@ -42,4 +42,37 @@ void enqueue(List lst, Object obj) {
 	lst->size++;
 }
 
+
+Object list_pop(List lst){
+	if(!lst->size || !lst->head) return NULL; 
+	Object obj = lst->head; 
+	if(obj->right) {
+		lst->head = obj->right;
+		obj->right = NULL;
+	}else {
+		lst->tail = lst->head = NULL; 
+	}
+	return obj;
+}
+
+
+void list_clear(List lst) {
+	if(!lst->size || !lst->head) return; 
+	Object obj = lst->head; 
+	while(obj){
+		Object temp = obj->right;
+		destroy(obj);
+		obj = temp;
+	}
+}
+
+void foreach(List lst, void f(Object)){
+	if(!lst->size || !lst->head) return; 
+	Object obj = lst->head; 
+	while(obj){
+		f(obj); 
+		obj = obj->right;  
+	}
+}
+
 #endif
