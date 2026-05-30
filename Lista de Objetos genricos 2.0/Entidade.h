@@ -1,0 +1,33 @@
+#ifndef ENTIDADE_H
+#define ENTIDADE_H
+#include <stdio.h>
+#include <stdlib.h>
+#include "string.h"
+#include "Object.h"
+
+typedef struct __Entity {
+	int id; 
+	char* name; 
+}__Entity; 
+
+typedef __Entity* Entity;
+
+void print(Object obj) {
+	if(!obj) return; 
+	Entity ent = (Entity) obj->item; 
+	printf("ID: %d\t\tNome: %s\t\t", ent->id, ent->name); 
+}
+
+Object new_Entity(int id, char* name){
+	Object obj = new_Object(); 
+	Entity ent = malloc(sizeof(__Entity));
+	ent->print = print();
+	ent->id = id; 
+	ent->name = malloc(sizeof(name)+1); 
+	strcpy(ent->name, name); 
+	obj->item = ent; 
+	return obj; 
+}
+
+
+#endif
