@@ -17,6 +17,8 @@ typedef struct __Entidade{
 
 typedef __Entidade* Entidade;
 
+void print_Entity(Object obj);
+
 Object new_Entidade(int id, char* name, int age){
 	Object obj = new_Object();
 	Entidade ent = malloc(sizeof(__Entidade));

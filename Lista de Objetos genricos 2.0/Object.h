@@ -7,12 +7,14 @@ typedef struct Node {
 	void* item; 
 	struct Node* right;
 	struct Node* left;
+	void (*print)(struct Node*);
 }Node; 
 
 typedef Node* Object; 
 
 Object new_Object(){
 	Object obj = malloc(sizeof(Node)); 
+	obj->print = NULL;
 	obj->item = NULL; 
 	obj->left = NULL; 
 	obj->right = NULL;

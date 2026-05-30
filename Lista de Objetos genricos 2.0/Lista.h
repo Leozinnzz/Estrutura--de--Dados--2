@@ -6,6 +6,8 @@
 #include <string.h>
 #include "Object.h"
 
+#define new(TYPE,...) new_##TYPE(__VAR_ARGS__)
+
 typedef struct __List {
 	Object head; 
 	Object tail; 
