@@ -6,22 +6,36 @@
 #include <string.h>
 #include "Object.h"
 
-#define new(TYPE,...) new_##TYPE(__VAR_ARGS__)
+#define new(TYPE,...) new_##TYPE(__VA_ARGS__)
+
 
 typedef struct __List {
 	Object head; 
 	Object tail; 
 	int size; 
-	void (*append)();
+	void (*append_push)(struct __List*, Object);
+	void (*append_enqueue)(struct __List*, Object);
+	void (*print)(struct __List*);
 }__List; 
 
+typedef struct Context{
+	
+}Context;
+
 typedef __List* List; 
+
+void enqueue(List lst, Object obj);
+void push(List lst, Object obj);
+void print_List(List lst);
 
 List new_List(){
 	List lst = malloc(sizeof(__List)); 
 	lst->head = NULL; 
 	lst->tail = NULL; 
 	lst->size = 0; 
+	lst->append_enqueue = enqueue;
+	lst->append_push = push;
+	lst->print = print_List;
 	return lst;
 }
 
@@ -30,31 +44,35 @@ void enqueue(List lst, Object obj){
 		lst->head = obj; 
 		lst->tail = obj; 
 	}
-	lst->head->right = obj; 
-	obj->left = lst->tail;
-	lst->tail = obj;
+	lst->head->right = obj;
+	obj->left = lst->tail; 
+	lst->tail = obj; 
+	lst->size++;
 }
 
 void push(List lst, Object obj){
-	obj->left = NULL; 
-	obj->right = lst->head;
-	
-	if(lst->head)
-		lst->head->left = obj;
-	lst->head = obj; 
-	
-	if(!lst->tail)
-		lst->tail = obj;
+	 if(lst->head) {
+		 obj->right = lst->head; 
+		 lst->head->left = obj; 
+	 }
+	 else {
+		 lst->tail = obj;
+	 }
+	 lst->head = obj; 
+	 lst->size++;
 }
 
 Object pop(List lst){
 	if(!lst->size || !lst->head) return NULL; 
-	Object aux = lst->head; 
-	if(lst->head)
-		lst->head->left = NULL;
+	Object obj = lst->head; 
+	if(obj->right)
+		obj->right->left = NULL; 
 	else 
 		lst->tail = NULL; 
-	return aux;
+	lst->head = obj->right; 
+	obj->right = NULL; 
+	obj->left = NULL; 
+	return obj;
 }
 
 void clear(List lst) {
@@ -67,9 +85,20 @@ void clear(List lst) {
 	}
 	lst->head = NULL; 
 	lst->tail = NULL;
-	lst->
-	size = 0;  
+	lst->size = 0;  
 }
+
+void print_List(List lst){
+	if(!lst->size || !lst->head) return; 
+	Object obj = lst->head; 
+	while(obj) {
+		obj->print(obj); 
+		obj = obj->right;
+	}
+} 
+
+
+
 
  
 #endif

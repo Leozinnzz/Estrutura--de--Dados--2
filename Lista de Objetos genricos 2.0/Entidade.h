@@ -1,5 +1,6 @@
 #ifndef ENTIDADE_H
 #define ENTIDADE_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,12 +26,11 @@ Object new_Entity(int id, char* name){
 	return obj; 
 }
 
-
 void print_Entity(Object obj) {
 	if(!obj) return; 
 	
 	Entity ent = (Entity) obj->item; 
-	printf("ID: %d\t\tNome: %s\t\t", ent->id, ent->name); 
+	printf("ID: %d\t\tNome: %s\t\t\n", ent->id, ent->name); 
 }
 
 #endif

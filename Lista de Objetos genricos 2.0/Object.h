@@ -1,5 +1,6 @@
 #ifndef OBJECT_H
 #define OBJECT_H
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -8,6 +9,7 @@ typedef struct Node {
 	struct Node* right;
 	struct Node* left;
 	void (*print)(struct Node*);
+	void (*destroy)(struct Node*); 
 }Node; 
 
 typedef Node* Object; 
@@ -23,7 +25,6 @@ Object new_Object(){
 
 void destroy(Object obj){
 	if(!obj) return; 
-	
 	if(obj->item)
 		free(obj->item); 
 	free(obj); 
