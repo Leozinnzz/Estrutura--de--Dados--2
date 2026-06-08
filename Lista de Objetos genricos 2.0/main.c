@@ -2,20 +2,20 @@
 #include <stdlib.h>
 #include "Lista.h"
 #include "Entidade.h"
+#include "Item.h"
 #include "Object.h"
 
-
 int main() {
-    
     List lst = new(List); 
-	Object p1 = new(Entity, 12, "Leonardo");
-	Object p2 = new(Entity, 8, "Jose");
-	lst->append_enqueue(lst, p1); 
-	lst->append_enqueue(lst, p2); 
-	Object obj = pop(lst); 
-	lst->print(lst);
-	printf("\nObjeto retirado da lista\n");
-	obj->print(obj);
+   
+	Object obj = new(Item);
+	set_item(obj, 12, "arma");
+	lst->append_enqueue(lst, obj); 
+	obj = new(Entity);
+	set_Entity(obj, "Leonardo");
+	lst->append_push(lst, obj);
+	lst->print(lst);	
+
 } 
 
 
