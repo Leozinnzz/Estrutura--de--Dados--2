@@ -5,6 +5,13 @@
 #include "string.h"
 #include "Object.h"
 
+
+typedef struct Context{
+	int power;
+	char* name;
+}Context;
+
+
 typedef struct __Item {
 	int id;
 	int power; 
@@ -38,9 +45,6 @@ void set_item(Object obj, int power, char* name){
 	
 	Item it = (Item) obj->item;
 	it->power = power; 
-	
-	if(it->name)
-		free(it->name);
 		
 	it->name = malloc(strlen(name)+1); 
 	strcpy(it->name, name); 

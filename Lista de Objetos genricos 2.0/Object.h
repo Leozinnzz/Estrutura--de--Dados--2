@@ -3,15 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-typedef struct Context{
-	int power;
-	char* name;
-}Context;
-
 typedef struct Node {
 	int id;
 	void* item; 
+	int type;
 	struct Node* right;
 	struct Node* left;
 	void (*print)(struct Node*);
@@ -41,10 +36,10 @@ void destroy(Object obj){
 	free(obj); 
 }
 
-void set_up(Object obj, void (*f_set)(Object)){
-	if(obj && f_set)
-		f_set(obj);
-}
+//void set_up(Object obj, void (*f_set)(Object)){
+	//if(obj && f_set)
+		//f_set(obj);
+//}
 
 
 

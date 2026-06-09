@@ -6,6 +6,12 @@
 #include <string.h>
 #include "Object.h"
 
+
+typedef struct Context_item{
+	int power;
+	char* name;
+}Context;
+
 typedef struct __Entity {
 	int id;
 	char* name; 
@@ -13,6 +19,7 @@ typedef struct __Entity {
 
 typedef __Entity* Entity;
 
+void set_Entity(Object obj, void* context);
 void print_Entity(Object obj);
 
 Object new_Entity(){
@@ -21,6 +28,7 @@ Object new_Entity(){
 	Entity ent = malloc(sizeof(__Entity));
 	ent->id = -1; 
 	obj->item = ent; 
+	obj->set = set_Entity;
 	return obj; 
 }
 
@@ -31,7 +39,7 @@ void print_Entity(Object obj) {
 	printf("ID: %d\t\tNome: %s\t\t\n", obj->id, ent->name); 
 }
 
-void set_Entity(Object obj, char* name){
+void set_Entity(Object obj){
 	if(!obj) return;
 	
 	Entity ent = (Entity) obj->item; 

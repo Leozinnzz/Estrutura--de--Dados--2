@@ -27,6 +27,7 @@ void enqueue(List lst, Object obj);
 void push(List lst, Object obj);
 void print_List(List lst);
 Object get(List lst, int index);
+void delete_idx(List lst, int idx);
 
 List new_List(){
 	List lst = malloc(sizeof(__List)); 
@@ -38,6 +39,7 @@ List new_List(){
 	lst->append_push = push;
 	lst->print = print_List;
 	lst->get = get;
+	lst->delete = delete_idx;
 	return lst;
 }
 
@@ -90,7 +92,7 @@ void clear(List lst) {
 	Object obj = lst->head; 
 	while(obj) {
 		Object temp = obj->right; 
-		destroy(obj); 
+		obj->destroy(obj); 
 		obj = temp;
 	}
 	lst->head = NULL; 
@@ -123,7 +125,7 @@ void delete_idx(List lst, int idx){
 				obj->right->left = obj->left;
 			else 
 				lst->tail = obj->left;
-			destroy(obj); 
+			obj->destroy(obj);
 			printf("\nObjeto destruido\n");
 			
 			lst->size--;
