@@ -5,7 +5,6 @@
 #include "Lista.h"
 #include "Object.h"
 
-// --- Suas structs reais de dados (Armazenadas na lista) ---
 typedef struct __Disciplina{
     int id;
     char* name; 
@@ -20,21 +19,20 @@ typedef struct __Professor{
 } __Professor;
 typedef __Professor* Professor;
 
-// --- As structs auxiliares de Contexto (Transporte dos dados) ---
+
 typedef struct __CtxProfessor{
     char* name;
     int idade;
 } __CtxProfessor;
-typedef __CtxProfessor* CxtProfessor; 
+typedef __CtxProfessor* CtxProfessor; 
 
 typedef struct __CtxDisciplina{
     char* name;
     int horas;
 } __CtxDisciplina;
-typedef __CtxDisciplina* CxtDisciplina;
+typedef __CtxDisciplina* CtxDisciplina;
 
 
-// --- Protótipos das funções ---
 void print_Disciplina(Object obj);
 void print_Professor(Object obj);
 void destroy_Disciplina(Object obj);
@@ -42,148 +40,163 @@ void destroy_Professor(Object obj);
 void set_Disciplina(Object obj, void* dados);
 void set_Professor(Object obj, void* dados);
 
-
-// --- NOVO: Construtores de Dados p/ usar dentro do set ---
-// Chamados quando você faz: new(Professor, "Adriano", 42)
-CxtProfessor new_Professor(char* name, int idade) {
-    CxtProfessor ctx = malloc(sizeof(__CtxProfessor));
-    ctx->idade = idade;
-    ctx->name = malloc(strlen(name) + 1);
-    strcpy(ctx->name, name);
-    return ctx;
+CtxDisciplina new_Disciplina(char* name, int horas){
+	CtxDisciplina ctx = malloc(sizeof(__CtxDisciplina));
+	ctx->horas = horas; 
+	ctx->name = malloc(strlen(name)+1);
+	strcpy(ctx->name, name);
+	return ctx;
 }
 
-CxtDisciplina new_Disciplina(char* name, int horas) {
-    CxtDisciplina ctx = malloc(sizeof(__CtxDisciplina));
-    ctx->horas = horas;
-    ctx->name = malloc(strlen(name) + 1);
-    strcpy(ctx->name, name);
-    return ctx;
+CtxProfessor new_Professor(char* name, int idade){
+	CtxProfessor ctx = malloc(sizeof(__CtxProfessor));
+	ctx->idade = idade; 
+	ctx->name = malloc(strlen(name)+1);
+	strcpy(ctx->name, name);
+	return ctx;
 }
 
-
-// --- Construtores dos Objetos/Nós da lista ---
-// Chamados quando você faz: new(ObjDisciplina) ou new(ObjProfessor)
 Object new_ObjDisciplina(){
-    Object obj = new_Object();    
-    // CORRIGIDO: Alocando a estrutura real (__Disciplina), não o contexto
-    Disciplina d = malloc(sizeof(__Disciplina)); 
-    obj->item = d;
-    d->id = -1; 
-    d->horas = 0; 
-    d->name = NULL;
-    
-    obj->print = print_Disciplina;
-    obj->destroy = destroy_Disciplina;
-    obj->set = set_Disciplina;
-    
-    return obj;
+	Object obj = new_Object(); 
+	Disciplina d = malloc(sizeof(__Disciplina));
+	obj->item = d; 
+	d->horas = 0; 
+	d->id = -1; 
+	d->name = NULL; 
+	
+	obj->print = print_Disciplina;
+	obj->destroy = destroy_Disciplina; 
+	obj->set = set_Disciplina;
+	
+	return obj;
+	
 }
 
 Object new_ObjProfessor(){
-    Object obj = new_Object();
-    // CORRIGIDO: Alocando a estrutura real (__Professor), não o contexto
-    Professor p = malloc(sizeof(__Professor)); 
-    obj->item = p; 
-    p->id = -1;
-    p->idade = 0; 
-    p->name = NULL; 
-    
-    obj->print = print_Professor;
-    obj->destroy = destroy_Professor;
-    obj->set = set_Professor;
-    
-    return obj; 
+	Object obj = new_Object(); 
+	Professor p = malloc(sizeof(__Professor));
+	obj->item = p; 
+	p->idade = 0; 
+	p->id = -1; 
+	p->name = NULL; 
+	
+	obj->print = print_Professor;
+	obj->destroy = destroy_Professor; 
+	obj->set = set_Professor;
+	
+	return obj;
+	
 }
 
-
-// --- Funções de Print ---
 void print_Disciplina(Object obj){
-    if(!obj || !obj->item) return; 
-    Disciplina d = (Disciplina) obj->item;
-    printf("[ID: %d]\t\t[Name: %s]\t\t[Horas: %d]\n", obj->id, d->name, d->horas);
+	if(!obj || !obj->item) return; 
+	Disciplina d = (Disciplina)obj->item;
+	printf("(ID: %d)   (Nome: %s)   (Horas: %d)\n", obj->id, d->name, d->horas);
 }
 
 void print_Professor(Object obj){
-    if(!obj || !obj->item) return; 
-    Professor p = (Professor) obj->item;
-    // CORRIGIDO: Mudado de [Horas: %d] para [Idade: %d]
-    printf("[ID: %d]\t\t[Name: %s]\t\t[Idade: %d]\n", obj->id, p->name, p->idade);
+	if(!obj || !obj->item) return; 
+	Professor p = (Professor)obj->item;
+	printf("(ID: %d)   (Nome: %s)   (Idade: %d)\n", obj->id, p->name, p->idade);
 }
 
-
-// --- Funções de Destruição ---
 void destroy_Disciplina(Object obj){
-    if(!obj) return; 
-    if(obj->item){
-        Disciplina dc = (Disciplina)obj->item;
-        if(dc->name) free(dc->name);
-        free(dc);
-    }
-    free(obj);
+	if(!obj) return; 
+	if(obj->item){
+		Disciplina d = (Disciplina) obj->item; 
+		if(d->name)
+			free(d->name);
+		free(d);
+	}
+	free(obj);
 }
 
 void destroy_Professor(Object obj){
-    if(!obj) return; 
-    if(obj->item){
-        Professor pr = (Professor)obj->item;
-        if(pr->name) free(pr->name);
-        free(pr);
-    }
-    free(obj);
+	if(!obj) return; 
+	if(obj->item){
+		Professor p = (Professor) obj->item; 
+		if(p->name)
+			free(p->name);
+		free(p);
+	}
+	free(obj);
 }
 
-// --- Funções Set (Recebem os Contextos e salvam no Objeto) ---
 void set_Disciplina(Object obj, void* dados){
-    if(!obj || !obj->item || !dados) return; 
-    Disciplina dc = (Disciplina) obj->item;
-    CxtDisciplina novos_dados = (CxtDisciplina) dados; // Cast para o Contexto
-    
-    dc->horas = novos_dados->horas;
-    
-    if(dc->name) free(dc->name);
-    dc->name = malloc(strlen(novos_dados->name) + 1); 
-    strcpy(dc->name, novos_dados->name);
-    
-    // Como o contexto foi criado com malloc dentro do set, liberamos ele aqui
-    free(novos_dados->name);
-    free(novos_dados);
+	if(!obj || !obj->item || !dados) return; 
+	Disciplina d = (Disciplina) obj->item; 
+	CtxDisciplina novos_dados = (CtxDisciplina) dados;
+	
+	d->horas = novos_dados->horas; 
+	if(d->name) free(d->name);
+	d->name = malloc(strlen(novos_dados->name)+1);
+	strcpy(d->name, novos_dados->name);
+	
+	free(novos_dados->name);
+	free(novos_dados);
 }
 
 void set_Professor(Object obj, void* dados){
-    if(!obj || !obj->item || !dados) return; 
-    Professor pr = (Professor) obj->item; 
-    CxtProfessor novos_dados = (CxtProfessor) dados; // Cast para o Contexto
-    
-    pr->idade = novos_dados->idade;
-        
-    if(pr->name) free(pr->name);
-    pr->name = malloc(strlen(novos_dados->name) + 1); 
-    strcpy(pr->name, novos_dados->name);
-    
-    // Como o contexto foi criado com malloc dentro do set, liberamos ele aqui
-    free(novos_dados->name);
-    free(novos_dados);
+	if(!obj || !obj->item || !dados) return; 
+	Professor p = (Professor) obj->item; 
+	CtxProfessor novos_dados = (CtxProfessor) dados;
+	
+	p->idade = novos_dados->idade; 
+	if(p->name) free(p->name);
+	p->name = malloc(strlen(novos_dados->name)+1);
+	strcpy(p->name, novos_dados->name);
+	
+	free(novos_dados->name);
+	free(novos_dados);
 }
 
+void list_clear(List lst){
+	if(!lst->size || !lst->head) return; 
+	Object obj = lst->head;
+	while(obj){
+		Object temp = obj->right; 
+		obj->destroy(obj); 
+		obj = temp; 
+	}
+	lst->head = NULL; 
+	lst->tail = NULL;
+	lst->size = 0;
+}
 
-// --- Main para Testes ---
+void delete_Idx(List lst, int idx){
+	if(!lst->size || !lst->head) return; 
+	Object obj = lst->head;
+	while(obj){
+		if(obj->id == idx){
+			if(obj->left)
+				obj->left->right = obj->right; 
+			else 
+				lst->head = obj->right; 
+			if(obj->right)
+				obj->right->left = obj->left;
+			else 
+				lst->tail = obj->left; 
+			obj->destroy(obj);
+			printf("Objeto destruido\n");
+			lst->size--;
+		}
+		obj = obj->right;
+	}
+}
+
 int main() {
-    List lst = new(List); 
-    
-    
-    Object obj = new(ObjProfessor);
-    
-
-    obj->set(obj, new(Professor, "Adriano", 42));
-    
-    // Adiciona na lista e testa o print
-    lst->append_enqueue(lst, obj);
-    lst->print(lst);
-    
-    // Limpa a memória de tudo
-    clear(lst);
-    free(lst);
-    
-    return 0;
+	List lst = new(List);
+	
+	Object p1 = new(ObjProfessor);
+	Object p2 = new(ObjDisciplina);
+	
+	p1->set(p1, new(Professor, "AAA", 12));
+	p2->set(p2, new(Disciplina, "Estruturas de dados", 80));
+	lst->append_push(lst, p1);
+	lst->append_push(lst, p2);
+	
+	delete_Idx(lst, 1);
+	
+	lst->print(lst);
+	
 }
