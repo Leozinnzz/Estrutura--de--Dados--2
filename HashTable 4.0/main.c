@@ -7,7 +7,6 @@
 int main() {
     HashTable ht = new(HashTable, 10);
 
-
     Object obj1 = new(Object);
     obj1->id = 23;
 
@@ -16,15 +15,25 @@ int main() {
 
     Object obj3 = new(Object);
     obj3->id = 13; 
+    
+    Object obj4 = new(Object);
+    obj4->id = 90; 
+    
+    Object obj5 = new(Object);
+    obj5->id = 85; 
 
-   
-    ht->insert(ht, obj1);
-    ht->insert(ht, obj2);
-    ht->insert(ht, obj3);
+ 
 
     
     printf("====== Tabela Hash Inicial ======\n");
     ht->print(ht);
+    
+    printf("\n====== Inserindo elementos ======\n");
+    ht->insert(ht, obj1);
+    ht->insert(ht, obj2);
+    ht->insert(ht, obj3);
+    ht->insert(ht, obj4);
+    ht->insert(ht, obj5);
 
    
     printf("\n======Buscando ID 45  ======\n");

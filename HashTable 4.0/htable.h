@@ -99,7 +99,7 @@ void _hash_print(HashTable ht){
             printf("[%d] -> ", current->id); 
             current = current->right; 
         }
-        printf("NULL\n");
+       
     }
 }
 
